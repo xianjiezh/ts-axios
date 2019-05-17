@@ -1,7 +1,7 @@
-import { AxiosRequestConfig, AxiosResponse, AxiosPromise } from './types'
-import { parseHeaders } from './helpers/parseResponseHeader'
-import { transformResponse } from './helpers/data'
-import { createError } from './helpers/error'
+import { AxiosRequestConfig, AxiosResponse, AxiosPromise } from '../types'
+import { parseHeaders } from '../helpers/parseResponseHeader'
+import { transformResponse } from '../helpers/data'
+import { createError } from '../helpers/error'
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
@@ -18,7 +18,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
     if (timeout) {
       r.timeout = timeout
     }
-    r.open(method.toUpperCase(), url, true)
+    r.open(method.toUpperCase(), url!, true)
     Object.keys(headers).forEach(h => {
       // 如果没有传入数据, 则不用设置content-type
       if (!data && h.toLowerCase() === 'content-type') {
