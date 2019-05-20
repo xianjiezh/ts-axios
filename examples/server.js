@@ -69,6 +69,14 @@ router.get('/error/timeout', (req, res) => {
     })
   }, 3000)
 })
+
+router.use('/extend', (req, res) => {
+  res.json({
+    method: req.method,
+    path: req.path
+  })
+})
+
 app.use(router)
 const port = process.env.PORT || 8080
 
