@@ -23,7 +23,7 @@ function transformURL(config: AxiosRequestConfig): string {
 }
 
 function transformHeaders(config: AxiosRequestConfig): any {
-  return processHeaders(config.headers = {}, config.data)
+  return processHeaders(config.headers || {}, config.data)
 }
 
 function transformRequestData(config: AxiosRequestConfig): any {

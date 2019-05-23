@@ -73,7 +73,17 @@ router.get('/error/timeout', (req, res) => {
 router.use('/extend', (req, res) => {
   res.json({
     method: req.method,
-    path: req.path
+    path: req.path,
+    data: req.body || req.params 
+  })
+})
+
+router.use('/interceptor', (req, res) => {
+  console.log(req.headers)
+  res.json({
+    method: req.method,
+    path: req.path,
+    data: req.body || req.params 
   })
 })
 

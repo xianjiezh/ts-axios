@@ -1,6 +1,5 @@
 import { isJSONObject, isJSONArray } from './util'
 
-
 function normalizeHeaderName(headers: any, normalizedName: string): void {
   if (!headers) {
     return 
@@ -13,8 +12,6 @@ function normalizeHeaderName(headers: any, normalizedName: string): void {
     }
   })
 }
-
-
 
 export function processHeaders (headers: any, data: any): any {
   normalizeHeaderName(headers, 'Content-Type')
