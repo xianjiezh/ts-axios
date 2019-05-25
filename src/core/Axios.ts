@@ -1,6 +1,13 @@
-import { AxiosRequestConfig, AxiosPromise, Method, AxiosResponse, RejectedFn, ResolvedFn} from '../types'
+import {
+  AxiosRequestConfig,
+  AxiosPromise,
+  Method,
+  AxiosResponse,
+  RejectedFn,
+  ResolvedFn
+} from '../types'
 import dispatchRequest from './dispatchRequest'
-import InterceptorManager from './InterceptorManager';
+import InterceptorManager from './InterceptorManager'
 
 interface Interceptors {
   request: InterceptorManager<AxiosRequestConfig>
@@ -11,13 +18,14 @@ interface PromiseChain {
   rejected?: RejectedFn
 }
 export default class Axios {
+  defaults: AxiosRequestConfig
+  interceptors: Interceptors
 
-  interceptors: Interceptors 
-  
-  constructor() {
+  constructor(initConfig: AxiosRequestConfig) {
+    this.defaults = initConfig
     this.interceptors = {
       request: new InterceptorManager<AxiosRequestConfig>(),
-      response: new InterceptorManager<AxiosResponse>(),
+      response: new InterceptorManager<AxiosResponse>()
     }
   }
 
@@ -30,11 +38,13 @@ export default class Axios {
     } else {
       config = url
     }
-    
-    const chain: PromiseChain[] = [{
-      resolved: dispatchRequest,
-      rejected: undefined,
-    }]  
+
+    const chain: PromiseChain[] = [
+      {
+        resolved: dispatchRequest,
+        rejected: undefined
+      }
+    ]
     this.interceptors.request.forEach(interceptor => {
       chain.unshift(interceptor)
     })
@@ -46,7 +56,7 @@ export default class Axios {
       const { resolved, rejected } = chain.shift()!
       promise = promise.then(resolved, rejected)
     }
-    return promise 
+    return promise
   }
   get(url: string, config?: AxiosRequestConfig): AxiosPromise {
     return this.requestMethodWithoutData('get', url, config)
@@ -79,16 +89,21 @@ export default class Axios {
     return this.request(
       Object.assign(config, {
         method,
-        url,
+        url
       })
     )
   }
-  private requestMethodWithData(method: Method, url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise {
+  private requestMethodWithData(
+    method: Method,
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): AxiosPromise {
     return this.request(
       Object.assign(config || {}, {
         method,
         url,
-        data,
+        data
       })
     )
   }
